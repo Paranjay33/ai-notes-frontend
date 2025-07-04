@@ -303,3 +303,46 @@
   });
 
   // Collapsible sections for flashcards & quiz
+generateBtn.addEventListener('click', async () => {
+  if (!fileInput.files.length) {
+    alert("Please select a file first.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('mode', selectedMode);
+
+  generateBtn.disabled = true;
+  generateBtn.innerHTML = `<div class="spinner"></div> Generating...`;
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/process`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error("Backend error.");
+
+    const data = await response.json();
+    outputArea.innerHTML = '';
+
+    if (selectedMode === 'summary') {
+      outputArea.textContent = data.summary;
+    } else if (selectedMode === 'flashcards') {
+      data.flashcards.forEach((fc, i) => {
+        outputArea.innerHTML += `<p><strong>Q${i+1}:</strong> ${fc.question}<br><strong>A:</strong> ${fc.answer}</p><hr>`;
+      });
+    } else if (selectedMode === 'quiz') {
+      data.questions.forEach((q, i) => {
+        outputArea.innerHTML += `<p><strong>Q${i+1}:</strong> ${q.question}<br>Options: ${q.options.join(', ')}<br><strong>Answer:</strong> ${q.answer}</p><hr>`;
+      });
+    }
+  } catch (err) {
+    outputArea.innerHTML = `<p style="color:red;">⚠️ ${err.message}</p>`;
+  } finally {
+    generateBtn.disabled = false;
+    generateBtn.innerHTML = "⚙️ Generate Output";
+  }
+});
