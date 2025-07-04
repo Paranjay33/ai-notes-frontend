@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NoteGenie AI - Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+  }
+  .container {
+    background: rgba(255 255 255 / 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    width: 600px;
+    max-width: 95vw;
+    box-shadow: 0 0 40px rgb(255 136 0 / 0.4);
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    text-align: center;
+    color: #ffb347;
+    margin-bottom: 0.6rem;
+  }
+  p.subtitle {
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff8e1;
+    margin-bottom: 1.8rem;
+  }
+
+  /* File upload */
+  .file-upload {
+    position: relative;
+    border: 2px dashed #ffb347;
+    border-radius: 14px;
+    padding: 1.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    color: #ffd87f;
+    font-weight: 600;
+  }
+  .file-upload:hover {
+    background-color: #ffb34733;
+    border-color: #ff9e00;
+  }
+  .file-upload input[type="file"] {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0; top: 0;
+    cursor: pointer;
+  }
+  .file-upload.dragover {
+    background-color: #ffb34755;
+    border-color: #ffa500;
+  }
+  .file-name {
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #fff;
+  }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255 255 255 / 0.15);
+    border-radius: 14px;
+    overflow: hidden;
+    user-select: none;
+    box-shadow: inset 0 0 10px rgba(255 255 255 / 0.1);
+  }
+  .mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.9rem 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #ffd87f;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .mode-tab.active {
+    background: #ffb347;
+    color: #2c1600;
+    font-weight: 700;
+  }
+  .mode-tab:hover:not(.active) {
+    background: #ffb34788;
+  }
+
+  /* Generate button */
+  button#generateBtn {
+    background: linear-gradient(45deg, #ffb347, #ff8c00);
+    border: none;
+    padding: 1rem 0;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c1600;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff9e00;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  button#generateBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  button#generateBtn:hover:not(:disabled) {
+    box-shadow: 0 0 30px #ffb347;
+    background: linear-gradient(45deg, #ffcd70, #ffa500);
+  }
+
+  /* Spinner */
+  .spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #2c1600;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Output */
+  #outputArea {
+    background: rgba(255 255 255 / 0.15);
+    border-radius: 14px;
+    padding: 1.4rem 1.8rem;
+    max-height: 320px;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  /* Collapsible flashcards & quiz */
+  .collapsible {
+    background-color: #ffb347dd;
+    color: #2c1600;
+    cursor: pointer;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 12px;
+    margin-top: 0.8rem;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .collapsible:hover {
+    background-color: #ffb347ff;
+  }
+  .active, .collapsible:active {
+    background-color: #ffa500ff;
+  }
+  .content {
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: rgba(255 255 255 / 0.1);
+    border-radius: 0 0 12px 12px;
+  }
+  .content p {
+    margin: 0.6rem 0;
+  }
+
+  /* Responsive */
+  @media(max-width: 640px) {
+    .container {
+      width: 100%;
+      padding: 1.2rem 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="AI Notes Summarizer Tool">
+  <h1>🧠 AI Notes Summarizer Assistant</h1>
+  <p class="subtitle">Upload your notes and generate summaries, flashcards, or quizzes effortlessly.</p>
+
+  <label class="file-upload" id="fileUploadLabel" for="fileInput" tabindex="0" aria-label="Upload file">
+    Drag & drop your file here or click to select<br />
+    <input type="file" id="fileInput" accept=".pdf,.txt,.png,.jpg,.jpeg" />
+  </label>
+  <div class="file-name" id="fileName">No file selected</div>
+
+  <div class="mode-tabs" role="tablist" aria-label="Select mode">
+    <div class="mode-tab active" role="tab" aria-selected="true" tabindex="0" data-mode="summary" id="tab-summary">📄 Summary</div>
+    <div class="mode-tab" role="tab" aria-selected="false" tabindex="-1" data-mode="flashcards" id="tab-flashcards">🃏 Flashcards</div>
+    <div class="mode-tab" role="tab" aria-selected="false" tabindex="-1" data-mode="quiz" id="tab-quiz">📝 Quiz</div>
+  </div>
+
+  <button id="generateBtn" aria-live="polite" aria-busy="false">⚙️ Generate Output</button>
+
+  <div id="outputArea" aria-live="polite" aria-atomic="true"></div>
+</div>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const fileUploadLabel = document.getElementById('fileUploadLabel');
+  const fileNameDisplay = document.getElementById('fileName');
+  const modeTabs = document.querySelectorAll('.mode-tab');
+  const generateBtn = document.getElementById('generateBtn');
+  const outputArea = document.getElementById('outputArea');
+
+  let selectedMode = 'summary';
+
+  const apiBaseUrl = "https://ai-notes-backend-8hc4.onrender.com";
+
+  // Drag & drop styling
+  fileUploadLabel.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadLabel.classList.add('dragover');
+  });
+  fileUploadLabel.addEventListener('dragleave', () => {
+    fileUploadLabel.classList.remove('dragover');
+  });
+  fileUploadLabel.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadLabel.classList.remove('dragover');
+    if(e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      updateFileName();
+    }
+  });
+
+  // Update file name display
+  function updateFileName() {
+    if(fileInput.files.length) {
+      fileNameDisplay.textContent = fileInput.files[0].name;
+    } else {
+      fileNameDisplay.textContent = "No file selected";
+    }
+  }
+  fileInput.addEventListener('change', updateFileName);
+
+  // Mode tabs control
+  modeTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      modeTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      selectedMode = tab.dataset.mode;
+      outputArea.innerHTML = '';
+    });
+    tab.addEventListener('keydown', (e) => {
+      // Keyboard navigation for tabs (left/right arrows)
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const currentIndex = Array.from(modeTabs).indexOf(e.target);
+        let newIndex;
+        if(e.key === 'ArrowRight') {
+          newIndex = (currentIndex + 1) % modeTabs.length;
+        } else {
+          newIndex = (currentIndex - 1 + modeTabs.length) % modeTabs.length;
+        }
+        modeTabs[newIndex].focus();
+        modeTabs[newIndex].click();
+      }
+    });
+  });
+
+  // Collapsible sections for flashcards & quiz

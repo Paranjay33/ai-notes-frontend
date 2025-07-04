@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NoteGenie AI - Home</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+      background-color: #0f2027;
+      background-image: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      transition: box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    nav .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #ffd700;
+      letter-spacing: 1.5px;
+      cursor: default;
+      user-select: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #ffd700;
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover,
+    nav ul li a:focus {
+      color: #ffd700;
+    }
+    nav ul li a:hover::after,
+    nav ul li a:focus::after {
+      width: 100%;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+      color: #d7d7d7;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero button {
+      padding: 1.15rem 3rem;
+      font-size: 1.15rem;
+      background: linear-gradient(45deg, #ff8c00, #ffd700);
+      color: #111;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(255, 140, 0, 0.6);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+    .hero button:hover,
+    .hero button:focus {
+      background: linear-gradient(45deg, #e67300, #ffcc00);
+      box-shadow: 0 6px 20px rgba(255, 204, 0, 0.9);
+      outline: none;
+    }
+    .hero button:active {
+      transform: scale(0.98);
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 2rem 6rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgb(255 255 255 / 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgb(255 255 255 / 0.25);
+    }
+    .feature-card h3 {
+      margin-top: 1.2rem;
+      margin-bottom: 1rem;
+      color: #ffd700;
+      font-size: 1.5rem;
+      letter-spacing: 0.8px;
+    }
+    .feature-card p {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #ddd;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 0.9rem;
+      color: #ccc;
+      user-select: none;
+      letter-spacing: 0.5px;
+    }
+    footer a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover,
+    footer a:focus {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.6rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .features {
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 4rem;
+      }
+      .feature-card {
+        width: 90%;
+        max-width: 350px;
+      }
+      nav ul {
+        gap: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="logo">NoteGenie AI</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="tool.html">Try Tool</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero" role="banner">
+      <h1>Welcome to NoteGenie AI</h1>
+      <p>Your AI-powered assistant to summarize notes, generate flashcards, and create quizzes effortlessly.</p>
+      <a href="tool.html" aria-label="Get started with NoteGenie AI tool"><button>🚀 Let's Get Started</button></a>
+    </section>
+
+    <section class="features" aria-label="Features of NoteGenie AI">
+      <article class="feature-card" tabindex="0" role="region" aria-labelledby="feature1-title">
+        <h3 id="feature1-title">📄 Smart Summarization</h3>
+        <p>Upload long notes or PDFs and get simplified summaries in seconds.</p>
+      </article>
+      <article class="feature-card" tabindex="0" role="region" aria-labelledby="feature2-title">
+        <h3 id="feature2-title">🃏 Flashcard Creator</h3>
+        <p>Generate flashcards from your notes to revise key concepts efficiently.</p>
+      </article>
+      <article class="feature-card" tabindex="0" role="region" aria-labelledby="feature3-title">
+        <h3 id="feature3-title">📝 Quiz Generator</h3>
+        <p>Test yourself with auto-generated multiple-choice questions based on your content.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 NoteGenie AI · Created by Paranjay Singh Jamwal ·
+    <a href="https://github.com/Paranjay33/ai-notes-backend" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+  </footer>
+
+  <script>
+    // Add shadow to navbar on scroll
+    window.addEventListener("scroll", () => {
+      const navbar = document.getElementById("navbar");
+      if (window.scrollY > 15) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Features - NoteGenie AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding-bottom: 4rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffd700;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 2rem 3rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2rem;
+      border-radius: 16px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .feature-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #ffcc00;
+    }
+
+    .feature-card p {
+      color: #ddd;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: #ccc;
+    }
+
+    a.repo-link {
+      color: #ffd700;
+      text-decoration: none;
+    }
+
+    a.repo-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">NoteGenie AI</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="tool.html">Try Tool</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>🚀 Explore NoteGenie's Features</h1>
+    <p>AI-powered tools to enhance how you study, revise, and learn smarter.</p>
+  </header>
+
+  <section class="feature-grid">
+    <div class="feature-card">
+      <h2>📄 AI Note Summarizer</h2>
+      <p>Upload long PDFs, notes, or textbooks, and instantly get concise summaries that capture the essence of your content.</p>
+    </div>
+    <div class="feature-card">
+      <h2>🃏 Flashcard Generator</h2>
+      <p>Convert study material into digital flashcards with question-answer pairs — perfect for spaced repetition.</p>
+    </div>
+    <div class="feature-card">
+      <h2>📝 Quiz Generator</h2>
+      <p>Let the AI generate multiple-choice questions from your material to help you self-test and assess understanding.</p>
+    </div>
+    <div class="feature-card">
+      <h2>🌐 Multiformat Support</h2>
+      <p>Accepts PDF, DOCX, TXT, JPEG, and PNG. You can even upload photos of handwritten notes for processing.</p>
+    </div>
+    <div class="feature-card">
+      <h2>⚡ Fast & Secure</h2>
+      <p>Lightning-fast processing with secure file handling — your data is never stored or shared.</p>
+    </div>
+    <div class="feature-card">
+      <h2>💬 Language Support</h2>
+      <p>Supports multiple languages for input and output, making it ideal for regional or multilingual learners.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 NoteGenie AI · Created by Paranjay Singh Jamwal · <a class="repo-link" href="https://github.com/Paranjay33/ai-notes-backend">GitHub Repo</a>
+  </footer>
+
+</body>
+</html>
